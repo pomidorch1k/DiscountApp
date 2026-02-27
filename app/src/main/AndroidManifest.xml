@@ -7,6 +7,12 @@
         android:roundIcon="@drawable/ic_launcher_legacy"
         android:supportsRtl="true"
         android:theme="@style/Theme.DiscountApp">
+
+        <activity
+            android:name=".AdminActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

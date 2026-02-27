@@ -9,14 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.komsomolsk.discountapp.databinding.ItemProductCardBinding
 
 class ProductAdapter(
-    private val products: List<Product>
+    private val products: List<Product>,
+    private val onProductClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductCardBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ProductViewHolder(binding)
+        return ProductViewHolder(binding, onProductClick)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -26,7 +27,8 @@ class ProductAdapter(
     override fun getItemCount() = products.size
 
     class ProductViewHolder(
-        private val binding: ItemProductCardBinding
+        private val binding: ItemProductCardBinding,
+        private val onProductClick: (Product) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
@@ -86,6 +88,14 @@ class ProductAdapter(
                 ContextCompat.getColor(binding.root.context, android.R.color.white)
             }
             binding.layoutCardContent.setBackgroundColor(contentColor)
+
+            binding.btnBuy.setOnClickListener {
+                onProductClick(product)
+            }
+            // Клик по всей карточке тоже открывает покупку
+            binding.root.setOnClickListener {
+                onProductClick(product)
+            }
         }
     }
 }
