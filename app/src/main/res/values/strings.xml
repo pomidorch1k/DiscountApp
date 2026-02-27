@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Обувная компания</string>
+    <string name="photo">Фото</string>
+    <string name="current_discount">Действующая скидка</string>
+    <string name="product_list">Список товаров</string>
+    <string name="description">Описание товара:</string>
+    <string name="manufacturer">Производитель:</string>
+    <string name="supplier">Поставщик:</string>
+    <string name="price">Цена:</string>
+    <string name="unit">Единица измерения:</string>
+    <string name="stock">Количество на складе:</string>
+</resources>

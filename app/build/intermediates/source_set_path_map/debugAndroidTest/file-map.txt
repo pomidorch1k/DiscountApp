@@ -1,0 +1,4 @@
+ru.komsomolsk.discountapp.test.app-androidTest-0 D:\moiproekti\DiscountApp\app\build\generated\res\resValues\androidTest\debug
+ru.komsomolsk.discountapp.test.app-mergeDebugAndroidTestResources-1 D:\moiproekti\DiscountApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+ru.komsomolsk.discountapp.test.app-mergeDebugAndroidTestResources-2 D:\moiproekti\DiscountApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+ru.komsomolsk.discountapp.test.app-merged_res-3 D:\moiproekti\DiscountApp\app\build\intermediates\merged_res\debugAndroidTest

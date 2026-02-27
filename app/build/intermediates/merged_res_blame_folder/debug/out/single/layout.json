@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "ru.komsomolsk.discountapp-mergeDebugResources-31:/layout/activity_main.xml",
+        "source": "ru.komsomolsk.discountapp-main-34:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ru.komsomolsk.discountapp-mergeDebugResources-31:/layout/item_product_card.xml",
+        "source": "ru.komsomolsk.discountapp-main-34:/layout/item_product_card.xml"
+    }
+]
