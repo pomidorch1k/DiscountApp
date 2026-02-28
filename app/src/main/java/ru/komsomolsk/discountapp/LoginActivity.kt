@@ -25,11 +25,11 @@ class LoginActivity : AppCompatActivity() {
 
         when {
             login == "admin" && password == "123456" -> {
-                SessionManager.currentRole = UserRole.ADMIN
+                SessionManager.currentRole = RoleRepository.getStoredRole(this, login)
                 openMain()
             }
             login == "manager" && password == "123456" -> {
-                SessionManager.currentRole = UserRole.MANAGER
+                SessionManager.currentRole = RoleRepository.getStoredRole(this, login)
                 openMain()
             }
             login.isEmpty() || password.isEmpty() -> {

@@ -1,5 +1,6 @@
 package ru.komsomolsk.discountapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -40,16 +41,25 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu.findItem(R.id.action_admin)?.isVisible = SessionManager.currentRole == UserRole.ADMIN
+        val isAdminOrManager = SessionManager.currentRole == UserRole.ADMIN || SessionManager.currentRole == UserRole.MANAGER
+        menu.findItem(R.id.action_admin)?.isVisible = isAdminOrManager
         return true
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_admin -> {
-                if (SessionManager.currentRole == UserRole.ADMIN) {
+                if (SessionManager.currentRole == UserRole.ADMIN || SessionManager.currentRole == UserRole.MANAGER) {
                     startActivity(AdminActivity.newIntent(this))
                 }
+                true
+            }
+            R.id.action_logout -> {
+                SessionManager.currentRole = UserRole.GUEST
+                startActivity(Intent(this, LoginActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)

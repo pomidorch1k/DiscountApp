@@ -13,6 +13,49 @@
         android:background="?attr/colorPrimary"
         app:title="@string/admin_panel" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/roleManagementSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="@color/default_background"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/role_management"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/role_management_hint"
+            android:textSize="12sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnSwapRoles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/swap_roles" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,8 +159,11 @@
     <ListView
         android:id="@+id/listProducts"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:minHeight="120dp" />
+
+    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
 

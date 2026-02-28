@@ -17,7 +17,7 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (SessionManager.currentRole != UserRole.ADMIN) {
+        if (SessionManager.currentRole != UserRole.ADMIN && SessionManager.currentRole != UserRole.MANAGER) {
             finish()
             return
         }
@@ -26,6 +26,16 @@ class AdminActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbarAdmin)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.roleManagementSection.visibility = if (SessionManager.currentRole == UserRole.ADMIN) {
+            android.view.View.VISIBLE
+        } else {
+            android.view.View.GONE
+        }
+        binding.btnSwapRoles.setOnClickListener {
+            RoleRepository.swapRoles(this)
+            Toast.makeText(this, R.string.role_swapped, Toast.LENGTH_SHORT).show()
+        }
 
         loadProducts()
         setupButtons()

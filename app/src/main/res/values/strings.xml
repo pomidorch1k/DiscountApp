@@ -42,4 +42,11 @@
     <string name="fill_login_password">Введите логин и пароль</string>
     <string name="invalid_credentials">Неверный логин или пароль</string>
     <string name="product_id">ID</string>
+    <string name="logout">Выйти</string>
+    <string name="role_management">Управление ролями</string>
+    <string name="role_management_hint">Только администратор может менять роли. Поменять роли местами (admin ↔ manager).</string>
+    <string name="swap_roles">Поменять роли местами</string>
+    <string name="role_swapped">Роли обновлены. Изменения применятся при следующем входе.</string>
+    <string name="role_admin">Администратор</string>
+    <string name="role_manager">Менеджер</string>
 </resources>
