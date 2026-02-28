@@ -4,7 +4,7 @@
     android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp">
 
@@ -15,12 +15,12 @@
         android:orientation="horizontal"
         android:background="@color/white">
 
-        <!-- Левая секция: Фото товара -->
+        <!-- Левая секция: Фото (компактно для телефона) -->
         <FrameLayout
-            android:layout_width="120dp"
-            android:layout_height="160dp"
+            android:layout_width="64dp"
+            android:layout_height="80dp"
             android:background="#F0F0F0"
-            android:minWidth="120dp">
+            android:minWidth="64dp">
 
             <ImageView
                 android:id="@+id/ivProductPhoto"
@@ -36,29 +36,36 @@
                 android:layout_gravity="center"
                 android:text="@string/photo"
                 android:textColor="@color/black"
-                android:textSize="14sp"/>
+                android:textSize="10sp"/>
         </FrameLayout>
 
-        <!-- Разделитель -->
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/black"/>
 
-        <!-- Центральная секция: Данные о товаре -->
+        <!-- Центральная секция -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="12dp"
+            android:padding="6dp"
             android:minWidth="0dp">
+
+            <TextView
+                android:id="@+id/tvProductId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="9sp"
+                android:textColor="@color/black"
+                android:maxLines="1"/>
 
             <TextView
                 android:id="@+id/tvCategoryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:maxLines="2"
@@ -68,8 +75,8 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
+                android:textSize="10sp"
+                android:layout_marginTop="2dp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
@@ -77,8 +84,8 @@
                 android:id="@+id/tvManufacturer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp"
+                android:textSize="9sp"
+                android:layout_marginTop="1dp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
@@ -86,8 +93,8 @@
                 android:id="@+id/tvSupplier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp"
+                android:textSize="9sp"
+                android:layout_marginTop="1dp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
@@ -95,22 +102,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tvPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/tvFinalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textSize="12sp"
+                    android:layout_marginStart="4dp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:visibility="gone"/>
@@ -120,46 +127,38 @@
                 android:id="@+id/tvUnit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp"/>
+                android:textSize="9sp"
+                android:layout_marginTop="1dp"/>
 
             <TextView
                 android:id="@+id/tvStock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp"/>
-
-            <Button
-                android:id="@+id/btnBuy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/buy" />
+                android:textSize="9sp"
+                android:layout_marginTop="1dp"/>
         </LinearLayout>
 
-        <!-- Разделитель -->
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/black"/>
 
-        <!-- Правая секция: Действующая скидка (фон #2E8B57 при скидке > 15%) -->
+        <!-- Скидка (компактно) -->
         <LinearLayout
             android:id="@+id/layoutDiscount"
-            android:layout_width="80dp"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="8dp"
-            android:minWidth="80dp">
+            android:padding="4dp"
+            android:minWidth="48dp">
 
             <TextView
                 android:id="@+id/tvDiscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/current_discount"
-                android:textSize="11sp"
+                android:textSize="9sp"
                 android:textColor="@color/white"
                 android:gravity="center"/>
         </LinearLayout>

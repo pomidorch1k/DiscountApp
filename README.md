@@ -46,6 +46,16 @@ APK будет в: `app/build/outputs/apk/debug/app-debug.apk`
   - выбрать существующий товар и отредактировать его,
   - добавить новый товар, заполнив форму.
 
+## Сборка APK через GitHub Actions
+
+1. Залейте проект в репозиторий на GitHub (ветка `main` или `master`).
+2. При каждом **push** или **pull request** в эту ветку запускается сборка.
+3. После завершения workflow откройте репозиторий → **Actions** → последний запуск.
+4. Внизу страницы в блоке **Artifacts** скачайте **app-debug** — внутри будет `app-debug.apk`.
+5. Запустить сборку вручную: **Actions** → **Build Android APK** → **Run workflow**.
+
+Собранный APK — debug, подходит для установки и тестов. Для подписанного release-APK нужно настроить keystore и секреты в настройках репозитория.
+
 ## APK‑гайд (как получить и установить)
 
 1. Соберите APK (debug или release) через Android Studio или GitHub Actions.

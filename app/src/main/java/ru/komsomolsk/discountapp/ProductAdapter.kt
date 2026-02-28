@@ -9,30 +9,38 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.komsomolsk.discountapp.databinding.ItemProductCardBinding
 
 class ProductAdapter(
-    private val products: List<Product>,
-    private val onProductClick: (Product) -> Unit
+    private val products: MutableList<Product> = mutableListOf(),
+    private val onProductClick: ((Product) -> Unit)? = null
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
+    fun updateProducts(newList: List<Product>) {
+        products.clear()
+        products.addAll(newList)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductCardBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ProductViewHolder(binding, onProductClick)
+        return ProductViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        holder.bind(products[position])
+        val product = products[position]
+        holder.bind(product)
+        holder.itemView.setOnClickListener { onProductClick?.invoke(product) }
     }
 
     override fun getItemCount() = products.size
 
     class ProductViewHolder(
-        private val binding: ItemProductCardBinding,
-        private val onProductClick: (Product) -> Unit
+        private val binding: ItemProductCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
-            // Категория | Наименование
+            // ID | Категория | Наименование
+            binding.tvProductId.text = "${binding.root.context.getString(R.string.product_id)}: ${product.id}"
             binding.tvCategoryName.text = "${product.category} | ${product.name}"
             binding.tvDescription.text = "${binding.root.context.getString(R.string.description)} ${product.description}"
             binding.tvManufacturer.text = "${binding.root.context.getString(R.string.manufacturer)} ${product.manufacturer}"
@@ -88,14 +96,6 @@ class ProductAdapter(
                 ContextCompat.getColor(binding.root.context, android.R.color.white)
             }
             binding.layoutCardContent.setBackgroundColor(contentColor)
-
-            binding.btnBuy.setOnClickListener {
-                onProductClick(product)
-            }
-            // Клик по всей карточке тоже открывает покупку
-            binding.root.setOnClickListener {
-                onProductClick(product)
-            }
         }
     }
 }

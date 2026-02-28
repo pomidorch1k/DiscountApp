@@ -1,90 +1,84 @@
 package ru.komsomolsk.discountapp
 
+import android.content.Context
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import ru.komsomolsk.discountapp.database.ProductEntity
+
 /**
- * Простое хранилище товаров в памяти.
- * Используется основной экран и админ‑панелью.
+ * Репозиторий товаров с использованием Room.
  */
 object ProductRepository {
 
-    /** Полный список товаров в приложении. */
-    val products: MutableList<Product> = mutableListOf(
-        Product(
-            id = 1,
-            category = "Кроссовки",
-            name = "Nike Air Max",
-            description = "Спортивная обувь для бега",
-            manufacturer = "Nike",
-            supplier = "ООО СпортТовары",
-            price = 8990.0,
-            unit = "пара",
-            stockQuantity = 15,
-            discountPercent = 20.0
-        ),
-        Product(
-            id = 2,
-            category = "Ботинки",
-            name = "Timberland Premium",
-            description = "Зимние ботинки",
-            manufacturer = "Timberland",
-            supplier = "ИП ПоставкаОбуви",
-            price = 15900.0,
-            unit = "пара",
-            stockQuantity = 3,
-            discountPercent = 10.0
-        ),
-        Product(
-            id = 3,
-            category = "Туфли",
-            name = "Ecco Classic",
-            description = "Классические мужские туфли",
-            manufacturer = "Ecco",
-            supplier = "ООО ОбувьРФ",
-            price = 12900.0,
-            unit = "пара",
-            stockQuantity = 0,
-            discountPercent = 25.0
-        ),
-        Product(
-            id = 4,
-            category = "Сандалии",
-            name = "Adidas Comfort",
-            description = "Летние сандалии",
-            manufacturer = "Adidas",
-            supplier = "ООО СпортТовары",
-            price = 4500.0,
-            unit = "пара",
-            stockQuantity = 42,
-            discountPercent = 0.0
-        ),
-        Product(
-            id = 5,
-            category = "Сапоги",
-            name = "Ugg Classic",
-            description = "Тёплые зимние сапоги",
-            manufacturer = "UGG",
-            supplier = "ИП ПоставкаОбуви",
-            price = 18900.0,
-            unit = "пара",
-            stockQuantity = 7,
-            discountPercent = 30.0
-        )
+    private fun db(context: Context) =
+        (context.applicationContext as DiscountApplication).database
+
+    private fun ProductEntity.toProduct() = Product(
+        id = id,
+        category = category,
+        name = name,
+        description = description,
+        manufacturer = manufacturer,
+        supplier = supplier,
+        price = price,
+        unit = unit,
+        stockQuantity = stockQuantity,
+        discountPercent = discountPercent,
+        imagePath = imagePath
     )
 
-    /** Возвращает максимальный текущий id. */
-    private fun maxId(): Int = products.maxOfOrNull { it.id } ?: 0
+    private fun Product.toEntity() = ProductEntity(
+        id = id,
+        category = category,
+        name = name,
+        description = description,
+        manufacturer = manufacturer,
+        supplier = supplier,
+        price = price,
+        unit = unit,
+        stockQuantity = stockQuantity,
+        discountPercent = discountPercent,
+        imagePath = imagePath
+    )
 
-    /** Добавление нового товара. */
-    fun addProduct(product: Product) {
-        val nextId = maxId() + 1
-        products.add(product.copy(id = nextId))
+    fun getAllFlow(context: Context): Flow<List<Product>> =
+        db(context).productDao().getAllFlow().map { list -> list.map { it.toProduct() } }
+
+    suspend fun getAll(context: Context): List<Product> =
+        db(context).productDao().getAll().map { it.toProduct() }
+
+    suspend fun addProduct(context: Context, product: Product) {
+        val dao = db(context).productDao()
+        val nextId = (dao.getMaxId() ?: 0) + 1
+        dao.insert(product.copy(id = nextId).toEntity())
     }
 
-    /** Обновление существующего товара по id. */
-    fun updateProduct(updated: Product) {
-        val index = products.indexOfFirst { it.id == updated.id }
-        if (index != -1) {
-            products[index] = updated
+    suspend fun updateProduct(context: Context, product: Product) {
+        db(context).productDao().update(product.toEntity())
+    }
+
+    suspend fun updateStock(context: Context, productId: Int, newStock: Int) {
+        val dao = db(context).productDao()
+        dao.getById(productId)?.let { entity ->
+            dao.update(entity.copy(stockQuantity = newStock))
+        }
+    }
+
+    suspend fun seedIfEmpty(context: Context) {
+        val dao = db(context).productDao()
+        if (dao.getAll().isEmpty()) {
+            listOf(
+                Product(1, "Кроссовки", "Nike Air Max", "Спортивная обувь для бега",
+                    "Nike", "ООО СпортТовары", 8990.0, "пара", 15, 20.0),
+                Product(2, "Ботинки", "Timberland Premium", "Зимние ботинки",
+                    "Timberland", "ИП ПоставкаОбуви", 15900.0, "пара", 3, 10.0),
+                Product(3, "Туфли", "Ecco Classic", "Классические мужские туфли",
+                    "Ecco", "ООО ОбувьРФ", 12900.0, "пара", 0, 25.0),
+                Product(4, "Сандалии", "Adidas Comfort", "Летние сандалии",
+                    "Adidas", "ООО СпортТовары", 4500.0, "пара", 42, 0.0),
+                Product(5, "Сапоги", "Ugg Classic", "Тёплые зимние сапоги",
+                    "UGG", "ИП ПоставкаОбуви", 18900.0, "пара", 7, 30.0)
+            ).forEach { dao.insert(it.toEntity()) }
         }
     }
 }
-

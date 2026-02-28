@@ -34,4 +34,12 @@
     <string name="product_added">Товар добавлен.</string>
     <string name="fill_required_fields">Заполните обязательные поля: категория и наименование.</string>
     <string name="fill_numbers_correctly">Проверьте правильность числовых полей (цена, количество, скидка).</string>
+    <string name="login_title">Вход в приложение</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="btn_login">Войти</string>
+    <string name="btn_guest">Войти как гость</string>
+    <string name="fill_login_password">Введите логин и пароль</string>
+    <string name="invalid_credentials">Неверный логин или пароль</string>
+    <string name="product_id">ID</string>
 </resources>

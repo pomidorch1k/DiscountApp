@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import ru.komsomolsk.discountapp.databinding.ActivityAdminBinding
 
 class AdminActivity : AppCompatActivity() {
@@ -15,13 +17,17 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (SessionManager.currentRole != UserRole.ADMIN) {
+            finish()
+            return
+        }
         binding = ActivityAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbarAdmin)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setupProductList()
+        loadProducts()
         setupButtons()
     }
 
@@ -30,8 +36,19 @@ class AdminActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setupProductList() {
-        val products = ProductRepository.products
+    override fun onResume() {
+        super.onResume()
+        loadProducts()
+    }
+
+    private fun loadProducts() {
+        lifecycleScope.launch {
+            val products = ProductRepository.getAll(this@AdminActivity)
+            setupProductList(products)
+        }
+    }
+
+    private fun setupProductList(products: List<Product>) {
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
@@ -53,18 +70,22 @@ class AdminActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.select_product_first, Toast.LENGTH_SHORT).show()
             } else {
                 val product = readProductFromForm(id = id) ?: return@setOnClickListener
-                ProductRepository.updateProduct(product)
-                Toast.makeText(this, R.string.product_updated, Toast.LENGTH_SHORT).show()
-                setupProductList()
+                lifecycleScope.launch {
+                    ProductRepository.updateProduct(this@AdminActivity, product)
+                    Toast.makeText(this@AdminActivity, R.string.product_updated, Toast.LENGTH_SHORT).show()
+                    loadProducts()
+                }
             }
         }
 
         binding.btnAddNew.setOnClickListener {
             val product = readProductFromForm(id = 0) ?: return@setOnClickListener
-            ProductRepository.addProduct(product)
-            Toast.makeText(this, R.string.product_added, Toast.LENGTH_SHORT).show()
-            clearForm()
-            setupProductList()
+            lifecycleScope.launch {
+                ProductRepository.addProduct(this@AdminActivity, product)
+                Toast.makeText(this@AdminActivity, R.string.product_added, Toast.LENGTH_SHORT).show()
+                clearForm()
+                loadProducts()
+            }
         }
     }
 
@@ -137,4 +158,3 @@ class AdminActivity : AppCompatActivity() {
             Intent(context, AdminActivity::class.java)
     }
 }
-
